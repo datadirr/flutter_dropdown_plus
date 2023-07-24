@@ -255,6 +255,7 @@ class _DropdownState extends State<Dropdown> {
               child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Visibility(
                       visible: (title.trim().isNotEmpty),

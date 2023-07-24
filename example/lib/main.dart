@@ -44,7 +44,7 @@ class _DropdownExampleState extends State<DropdownExample> {
 
   _generateItems() {
     List<DropdownItem> list = [];
-    for (int i = 1; i <= 20; i++) {
+    for (int i = 1; i <= 3; i++) {
       list.add(DropdownItem(
           id: "$i",
           value: "Item $i",
