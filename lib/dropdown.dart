@@ -29,7 +29,8 @@ class Dropdown extends StatefulWidget {
   final InputDecoration? decoration;
   final String prefixSeparator;
   final String suffixSeparator;
-  final Color selectedBackgroundColor;
+  final Color itemBackgroundColor;
+  final Color selectedItemBackgroundColor;
   final bool searchBox;
   final String searchBoxHintText;
   final IconData prefixSearchBoxIcon;
@@ -63,7 +64,8 @@ class Dropdown extends StatefulWidget {
       this.searchBox = true,
       this.searchBoxHintText = _searchHere,
       this.prefixSearchBoxIcon = _icSearch,
-      this.selectedBackgroundColor = Colors.black12,
+      this.itemBackgroundColor = Colors.transparent,
+      this.selectedItemBackgroundColor = Colors.black12,
       this.negativeButtonText = _cancel,
       this.negativeButtonTextColor = Colors.red,
       this.isAddItem = false,
@@ -99,7 +101,8 @@ class Dropdown extends StatefulWidget {
       this.suffixSeparator = _comma,
       this.searchBoxHintText = _searchHere,
       this.prefixSearchBoxIcon = _icSearch,
-      this.selectedBackgroundColor = Colors.black12,
+      this.itemBackgroundColor = Colors.transparent,
+      this.selectedItemBackgroundColor = Colors.black12,
       this.negativeButtonText = _cancel,
       this.positiveButtonText = _ok,
       this.negativeButtonTextColor = Colors.red,
@@ -355,7 +358,7 @@ class _DropdownState extends State<Dropdown> {
                         ],
                       ),
                     ),
-                    Expanded(
+                    Flexible(
                       child: Visibility(
                         visible: fList.isNotEmpty,
                         replacement: const Center(child: Text("No data")),
@@ -439,7 +442,7 @@ class _DropdownState extends State<Dropdown> {
             });
             _checkAllSelection(list);
           } else {
-            //widget.selectedId = obj.id;
+            /*widget.selectedId = obj.id;*/
             _conSelectedValue.text = obj.value;
             if (widget.onSingleItemListener != null) {
               widget.onSingleItemListener!(obj);
@@ -451,8 +454,9 @@ class _DropdownState extends State<Dropdown> {
           margin: const EdgeInsets.only(top: 2, bottom: 2),
           padding: EdgeInsets.all(isMultiple ? 10 : 20),
           decoration: BoxDecoration(
-              color:
-                  obj.selected ? widget.selectedBackgroundColor : Colors.white,
+              color: obj.selected
+                  ? widget.selectedItemBackgroundColor
+                  : widget.itemBackgroundColor,
               borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: Row(
             children: [
