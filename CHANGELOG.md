@@ -1,3 +1,7 @@
+## 1.3.0
+
+* Customization with dropdown dialog size, color, font family, no data widget.
+
 ## 1.2.0
 
 * Customization with dropdown dialog size, color, font family, no data widget.

@@ -2,7 +2,7 @@ name: flutter_dropdown_plus
 description: Single or Multi Selection Dropdown with search dropdown item, and easy to customization.
 repository: https://github.com/datadirr/flutter_dropdown_plus
 homepage: https://datadirr.com
-version: 1.2.0
+version: 1.3.0
 
 environment:
   sdk: '>=2.19.6 <4.0.0'
