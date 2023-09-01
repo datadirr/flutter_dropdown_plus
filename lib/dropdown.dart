@@ -9,10 +9,11 @@ const String _searchHere = "Search here...";
 const String _addItem = "+ Add Item";
 const IconData _icSearch = Icons.search;
 
-Widget _addItemWidget() {
-  return const Align(
+Widget _addItemWidget(String? fontFamily) {
+  return Align(
       alignment: Alignment.centerRight,
-      child: Text(_addItem, style: TextStyle(color: Colors.blue)));
+      child: Text(_addItem,
+          style: TextStyle(fontFamily: fontFamily, color: Colors.blue)));
 }
 
 /// Dropdown for single selection or multi selection
@@ -24,11 +25,15 @@ class Dropdown extends StatefulWidget {
   final String labelText;
   final String hintText;
   final bool enabled;
+  final double? width;
+  final double? height;
   final TextAlign textAlign;
+  final String? fontFamily;
   final InputBorder border;
   final InputDecoration? decoration;
   final String prefixSeparator;
   final String suffixSeparator;
+  final Color? dialogBackgroundColor;
   final Color itemBackgroundColor;
   final Color selectedItemBackgroundColor;
   final bool searchBox;
@@ -43,6 +48,7 @@ class Dropdown extends StatefulWidget {
   final bool dismissWhenTapAddItem;
   final Widget? addItemWidget;
   final Color checkBoxActiveColor;
+  final Widget? noDataWidget;
   final Function(DropdownItem selectedItem)? onSingleItemListener;
   final Function(List<DropdownItem> selectedItemList)? onMultipleItemListener;
   final Function(String searchValue)? onTapAddItem;
@@ -58,12 +64,16 @@ class Dropdown extends StatefulWidget {
       this.labelText = "",
       this.hintText = "",
       this.enabled = true,
+      this.width,
+      this.height,
       this.textAlign = TextAlign.start,
+      this.fontFamily,
       this.border = const OutlineInputBorder(),
       this.decoration,
       this.searchBox = true,
       this.searchBoxHintText = _searchHere,
       this.prefixSearchBoxIcon = _icSearch,
+      this.dialogBackgroundColor,
       this.itemBackgroundColor = Colors.transparent,
       this.selectedItemBackgroundColor = Colors.black12,
       this.negativeButtonText = _cancel,
@@ -71,7 +81,8 @@ class Dropdown extends StatefulWidget {
       this.isAddItem = false,
       this.dismissWhenTapAddItem = true,
       this.onTapAddItem,
-      this.addItemWidget})
+      this.addItemWidget,
+      this.noDataWidget})
       : selectedIds = null,
         prefixSeparator = _has,
         suffixSeparator = _comma,
@@ -93,7 +104,10 @@ class Dropdown extends StatefulWidget {
       this.labelText = "",
       this.hintText = "",
       this.enabled = true,
+      this.width,
+      this.height,
       this.textAlign = TextAlign.start,
+      this.fontFamily,
       this.border = const OutlineInputBorder(),
       this.decoration,
       this.searchBox = true,
@@ -101,6 +115,7 @@ class Dropdown extends StatefulWidget {
       this.suffixSeparator = _comma,
       this.searchBoxHintText = _searchHere,
       this.prefixSearchBoxIcon = _icSearch,
+      this.dialogBackgroundColor,
       this.itemBackgroundColor = Colors.transparent,
       this.selectedItemBackgroundColor = Colors.black12,
       this.negativeButtonText = _cancel,
@@ -112,7 +127,8 @@ class Dropdown extends StatefulWidget {
       this.isAddItem = false,
       this.dismissWhenTapAddItem = true,
       this.onTapAddItem,
-      this.addItemWidget})
+      this.addItemWidget,
+      this.noDataWidget})
       : selectedId = null,
         onSingleItemListener = null,
         _isMultiple = true,
@@ -149,13 +165,17 @@ class _DropdownState extends State<Dropdown> {
       controller: _conSelectedValue,
       readOnly: true,
       textAlign: widget.textAlign,
+      style: TextStyle(fontFamily: widget.fontFamily),
       enabled: widget.enabled,
       decoration: widget.decoration ??
           InputDecoration(
-              suffixIcon: const Icon(Icons.arrow_drop_down_rounded),
-              border: widget.border,
-              labelText: widget.labelText,
-              hintText: widget.hintText),
+            suffixIcon: const Icon(Icons.arrow_drop_down_rounded),
+            border: widget.border,
+            labelText: widget.labelText,
+            labelStyle: TextStyle(fontFamily: widget.fontFamily),
+            hintText: widget.hintText,
+            hintStyle: TextStyle(fontFamily: widget.fontFamily),
+          ),
     );
   }
 
@@ -254,176 +274,192 @@ class _DropdownState extends State<Dropdown> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               elevation: 5,
-              backgroundColor: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Visibility(
-                      visible: (title.trim().isNotEmpty),
-                      child: Column(
-                        children: [
-                          Text(
-                            title,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Visibility(
-                      visible: widget.searchBox || widget.isAllSelection,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Visibility(
-                                visible: widget.searchBox,
-                                child: Expanded(
-                                  child: TextFormField(
-                                    controller: _conSearchBox,
-                                    decoration: InputDecoration(
-                                        hintText: widget.searchBoxHintText,
-                                        prefixIcon:
-                                            Icon(widget.prefixSearchBoxIcon)),
-                                    onChanged: (value) {
-                                      fList.clear();
-                                      if ((value.trim()).isNotEmpty) {
-                                        for (DropdownItem obj in list) {
-                                          if (obj.value
-                                              .toLowerCase()
-                                              .contains(value.toLowerCase())) {
-                                            fList.add(obj);
-                                          }
-                                        }
-                                      } else {
-                                        fList = DropdownItem.cloneList(list);
-                                      }
-                                      setState(() {});
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Visibility(
-                                visible: widget.isAllSelection,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    GestureDetector(
-                                        onTap: () {
-                                          _isAllSelected = !_isAllSelected;
-                                          for (DropdownItem obj in list) {
-                                            obj.selected = _isAllSelected;
-                                          }
-                                          setState(() {});
-                                        },
-                                        child: Icon(_isAllSelected
-                                            ? Icons.playlist_add_check_rounded
-                                            : Icons.subject))
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Visibility(
-                            visible: widget.isAddItem,
-                            child: GestureDetector(
-                              onTap: () {
-                                if (widget.onTapAddItem != null) {
-                                  if (widget.dismissWhenTapAddItem) {
-                                    Navigator.pop(context);
-                                  }
-                                  widget.onTapAddItem!(
-                                      _conSearchBox.text.toString());
-                                }
-                              },
-                              child: widget.addItemWidget ?? _addItemWidget(),
+              backgroundColor: widget.dialogBackgroundColor,
+              child: SizedBox(
+                width: widget.width,
+                height: widget.height,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Visibility(
+                        visible: (title.trim().isNotEmpty),
+                        child: Column(
+                          children: [
+                            Text(
+                              title,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontFamily: widget.fontFamily, fontSize: 18),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          )
-                        ],
-                      ),
-                    ),
-                    Flexible(
-                      child: Visibility(
-                        visible: fList.isNotEmpty,
-                        replacement: const Center(child: Text("No data")),
-                        child: ListView.builder(
-                          key: const PageStorageKey<String>('list'),
-                          shrinkWrap: true,
-                          itemCount: fList.length,
-                          itemBuilder: (context, index) {
-                            return _dropdownItemView(context, isMultiple,
-                                fList[index], fList, setState);
-                          },
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              widget.negativeButtonText,
-                              style: TextStyle(
-                                  color: widget.negativeButtonTextColor),
-                            )),
-                        Visibility(
-                          visible: isMultiple,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const SizedBox(width: 5),
-                              TextButton(
-                                  onPressed: () {
-                                    widget.selectedIds!.clear();
-                                    List<DropdownItem> selectedList = [];
-                                    for (DropdownItem selectedObj in list) {
-                                      if (selectedObj.selected) {
-                                        widget.selectedIds!.add(selectedObj.id);
-                                        selectedList.add(selectedObj);
-                                      }
-                                    }
-                                    String selectedValue =
-                                        _getSelectedValue(list: selectedList);
-                                    _conSelectedValue.text = selectedValue;
-                                    if (widget.onMultipleItemListener != null) {
-                                      widget.onMultipleItemListener!(
-                                          selectedList);
+                      Visibility(
+                        visible: widget.searchBox || widget.isAllSelection,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Visibility(
+                                  visible: widget.searchBox,
+                                  child: Expanded(
+                                    child: TextFormField(
+                                      controller: _conSearchBox,
+                                      decoration: InputDecoration(
+                                          hintText: widget.searchBoxHintText,
+                                          prefixIcon:
+                                              Icon(widget.prefixSearchBoxIcon)),
+                                      onChanged: (value) {
+                                        fList.clear();
+                                        if ((value.trim()).isNotEmpty) {
+                                          for (DropdownItem obj in list) {
+                                            if (obj.value
+                                                .toLowerCase()
+                                                .contains(
+                                                    value.toLowerCase())) {
+                                              fList.add(obj);
+                                            }
+                                          }
+                                        } else {
+                                          fList = DropdownItem.cloneList(list);
+                                        }
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: widget.isAllSelection,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      GestureDetector(
+                                          onTap: () {
+                                            _isAllSelected = !_isAllSelected;
+                                            for (DropdownItem obj in list) {
+                                              obj.selected = _isAllSelected;
+                                            }
+                                            setState(() {});
+                                          },
+                                          child: Icon(_isAllSelected
+                                              ? Icons.playlist_add_check_rounded
+                                              : Icons.subject))
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Visibility(
+                              visible: widget.isAddItem,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (widget.onTapAddItem != null) {
+                                    if (widget.dismissWhenTapAddItem) {
                                       Navigator.pop(context);
                                     }
-                                  },
-                                  child: Text(
-                                    widget.positiveButtonText,
-                                    style: TextStyle(
-                                        color: widget.positiveButtonTextColor),
-                                  ))
-                            ],
+                                    widget.onTapAddItem!(
+                                        _conSearchBox.text.toString());
+                                  }
+                                },
+                                child: widget.addItemWidget ??
+                                    _addItemWidget(widget.fontFamily),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            )
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        child: Visibility(
+                          visible: fList.isNotEmpty,
+                          replacement: widget.noDataWidget ??
+                              Center(
+                                  child: Text("No Data",
+                                      style: TextStyle(
+                                          fontFamily: widget.fontFamily))),
+                          child: ListView.builder(
+                            key: const PageStorageKey<String>('list'),
+                            shrinkWrap: true,
+                            itemCount: fList.length,
+                            itemBuilder: (context, index) {
+                              return _dropdownItemView(context, isMultiple,
+                                  fList[index], fList, setState);
+                            },
                           ),
-                        )
-                      ],
-                    )
-                  ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                widget.negativeButtonText,
+                                style: TextStyle(
+                                    fontFamily: widget.fontFamily,
+                                    color: widget.negativeButtonTextColor),
+                              )),
+                          Visibility(
+                            visible: isMultiple,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(width: 5),
+                                TextButton(
+                                    onPressed: () {
+                                      widget.selectedIds!.clear();
+                                      List<DropdownItem> selectedList = [];
+                                      for (DropdownItem selectedObj in list) {
+                                        if (selectedObj.selected) {
+                                          widget.selectedIds!
+                                              .add(selectedObj.id);
+                                          selectedList.add(selectedObj);
+                                        }
+                                      }
+                                      String selectedValue =
+                                          _getSelectedValue(list: selectedList);
+                                      _conSelectedValue.text = selectedValue;
+                                      if (widget.onMultipleItemListener !=
+                                          null) {
+                                        widget.onMultipleItemListener!(
+                                            selectedList);
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    child: Text(
+                                      widget.positiveButtonText,
+                                      style: TextStyle(
+                                          fontFamily: widget.fontFamily,
+                                          color:
+                                              widget.positiveButtonTextColor),
+                                    ))
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
@@ -478,7 +514,9 @@ class _DropdownState extends State<Dropdown> {
                   ],
                 ),
               ),
-              Expanded(child: Text(obj.value)),
+              Expanded(
+                  child: Text(obj.value,
+                      style: TextStyle(fontFamily: widget.fontFamily))),
             ],
           ),
         ));
