@@ -1,6 +1,7 @@
 ## 1.3.0
 
-* Customization with dropdown dialog size, color, font family, no data widget.
+* Add namespace for android.
+* Upgrade dependencies.
 
 ## 1.2.0
 

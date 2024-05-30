@@ -248,7 +248,7 @@ class DropdownTextField<T> extends StatefulWidget {
   final SuggestionDirection suggestionDirection;
 
   DropdownTextField({
-    Key? key,
+    super.key,
     required this.list,
     this.autoCorrect = false,
     this.controller,
@@ -277,8 +277,7 @@ class DropdownTextField<T> extends StatefulWidget {
     this.suggestionAction,
     this.textInputAction,
     this.validator,
-  })  : initialValue = null,
-        super(key: key) {
+  })  : initialValue = null {
     for (DropdownItem item in list) {
       suggestions.add(SearchFieldListItem(item.value));
     }

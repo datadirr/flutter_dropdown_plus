@@ -56,7 +56,7 @@ class Dropdown extends StatefulWidget {
 
   /// constructor for single selection dropdown
   const Dropdown.singleSelection(
-      {Key? key,
+      {super.key,
       required this.list,
       required this.onSingleItemListener,
       this.selectedId,
@@ -91,12 +91,11 @@ class Dropdown extends StatefulWidget {
         isAllSelection = false,
         checkBoxActiveColor = Colors.black,
         onMultipleItemListener = null,
-        _isMultiple = false,
-        super(key: key);
+        _isMultiple = false;
 
   /// constructor for single multi dropdown
   const Dropdown.multiSelection(
-      {Key? key,
+      {super.key,
       required this.list,
       required this.onMultipleItemListener,
       this.selectedIds,
@@ -131,8 +130,7 @@ class Dropdown extends StatefulWidget {
       this.noDataWidget})
       : selectedId = null,
         onSingleItemListener = null,
-        _isMultiple = true,
-        super(key: key);
+        _isMultiple = true;
 
   @override
   State<Dropdown> createState() => _DropdownState();
