@@ -277,7 +277,7 @@ class DropdownTextField<T> extends StatefulWidget {
     this.suggestionAction,
     this.textInputAction,
     this.validator,
-  })  : initialValue = null {
+  }) : initialValue = null {
     for (DropdownItem item in list) {
       suggestions.add(SearchFieldListItem(item.value));
     }
