@@ -47,10 +47,7 @@ class SearchFieldListItem<T> {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is SearchFieldListItem &&
-            runtimeType == other.runtimeType &&
-            searchKey == other.searchKey;
+    return identical(this, other) || other is SearchFieldListItem && runtimeType == other.runtimeType && searchKey == other.searchKey;
   }
 
   @override
@@ -288,8 +285,7 @@ class DropdownTextField<T> extends StatefulWidget {
 }
 
 class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
-  final StreamController<List<SearchFieldListItem<T>?>?> suggestionStream =
-      StreamController<List<SearchFieldListItem<T>?>?>.broadcast();
+  final StreamController<List<SearchFieldListItem<T>?>?> suggestionStream = StreamController<List<SearchFieldListItem<T>?>?>.broadcast();
   FocusNode? _focus;
   bool isSuggestionExpanded = false;
   TextEditingController? searchController;
@@ -329,7 +325,9 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
           }
           Overlay.of(context).insert(_overlayEntry);
         } else {
-          _overlayEntry.remove();
+          if (_overlayEntry.mounted) {
+            _overlayEntry.remove();
+          }
         }
       } else {
         if (isSuggestionExpanded) {
@@ -363,8 +361,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _overlayEntry = _createOverlay();
-        if (widget.initialValue == null ||
-            widget.initialValue!.searchKey.isEmpty) {
+        if (widget.initialValue == null || widget.initialValue!.searchKey.isEmpty) {
           suggestionStream.sink.add(null);
         } else {
           searchController!.text = widget.initialValue!.searchKey;
@@ -402,8 +399,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
   Widget _suggestionsBuilder() {
     return StreamBuilder<List<SearchFieldListItem<T>?>?>(
       stream: suggestionStream.stream,
-      builder: (BuildContext context,
-          AsyncSnapshot<List<SearchFieldListItem<T>?>?> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<SearchFieldListItem<T>?>?> snapshot) {
         if (snapshot.data == null || !isSuggestionExpanded) {
           return const SizedBox();
         } else if (snapshot.data!.isEmpty) {
@@ -418,9 +414,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
           }
           final onSurfaceColor = Theme.of(context).colorScheme.onSurface;
           return AnimatedContainer(
-            duration: widget.suggestionDirection == SuggestionDirection.up
-                ? Duration.zero
-                : const Duration(milliseconds: 300),
+            duration: widget.suggestionDirection == SuggestionDirection.up ? Duration.zero : const Duration(milliseconds: 300),
             height: _totalHeight,
             alignment: Alignment.centerLeft,
             decoration: widget.suggestionsDecoration ??
@@ -444,9 +438,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
               reverse: widget.suggestionDirection == SuggestionDirection.up,
               padding: EdgeInsets.zero,
               itemCount: snapshot.data!.length,
-              physics: snapshot.data!.length == 1
-                  ? const NeverScrollableScrollPhysics()
-                  : const ScrollPhysics(),
+              physics: snapshot.data!.length == 1 ? const NeverScrollableScrollPhysics() : const ScrollPhysics(),
               itemBuilder: (context, index) => InkWell(
                 onTap: () {
                   searchController!.text = snapshot.data![index]!.searchKey;
@@ -460,8 +452,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
                   if (widget.suggestionAction != null) {
                     if (widget.suggestionAction == SuggestionAction.next) {
                       _focus!.nextFocus();
-                    } else if (widget.suggestionAction ==
-                        SuggestionAction.unfocus) {
+                    } else if (widget.suggestionAction == SuggestionAction.unfocus) {
                       _focus!.unfocus();
                     }
                   }
@@ -479,8 +470,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
                         border: widget.suggestionItemDecoration?.border ??
                             Border(
                               bottom: BorderSide(
-                                color: widget.marginColor ??
-                                    onSurfaceColor.withOpacity(0.1),
+                                color: widget.marginColor ?? onSurfaceColor.withOpacity(0.1),
                               ),
                             ),
                       ) ??
@@ -489,8 +479,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
                             ? null
                             : Border(
                                 bottom: BorderSide(
-                                  color: widget.marginColor ??
-                                      onSurfaceColor.withOpacity(0.1),
+                                  color: widget.marginColor ?? onSurfaceColor.withOpacity(0.1),
                                 ),
                               ),
                       ),
@@ -514,19 +503,16 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
   /// Decides whether to show the suggestions
   /// on top or bottom of Searchfield
   /// User can have more control by manually specifying the offset
-  Offset? getYOffset(
-      Offset textFieldOffset, Size textFieldSize, int suggestionsCount) {
+  Offset? getYOffset(Offset textFieldOffset, Size textFieldSize, int suggestionsCount) {
     if (mounted) {
       final size = MediaQuery.of(context).size;
-      final isSpaceAvailable = size.height >
-          textFieldOffset.dy + textFieldSize.height + _totalHeight;
+      final isSpaceAvailable = size.height > textFieldOffset.dy + textFieldSize.height + _totalHeight;
       if (widget.suggestionDirection == SuggestionDirection.down) {
         return Offset(0, textFieldSize.height);
       } else if (widget.suggestionDirection == SuggestionDirection.up) {
         // search results should not exceed maxSuggestionsInViewPort
         if (suggestionsCount > widget.maxSuggestionsInViewPort) {
-          return Offset(
-              0, -(widget.itemHeight * widget.maxSuggestionsInViewPort));
+          return Offset(0, -(widget.itemHeight * widget.maxSuggestionsInViewPort));
         } else {
           return Offset(0, -(widget.itemHeight * suggestionsCount));
         }
@@ -538,8 +524,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
             return _offset;
           } else {
             if (suggestionsCount > widget.maxSuggestionsInViewPort) {
-              _offset = Offset(
-                  0, -(widget.itemHeight * widget.maxSuggestionsInViewPort));
+              _offset = Offset(0, -(widget.itemHeight * widget.maxSuggestionsInViewPort));
               return _offset;
             } else {
               _offset = Offset(0, -(widget.itemHeight * suggestionsCount));
@@ -555,16 +540,14 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
   }
 
   OverlayEntry _createOverlay() {
-    final textFieldRenderBox =
-        key.currentContext!.findRenderObject() as RenderBox;
+    final textFieldRenderBox = key.currentContext!.findRenderObject() as RenderBox;
     final textFieldSize = textFieldRenderBox.size;
     final offset = textFieldRenderBox.localToGlobal(Offset.zero);
     Offset yOffset = Offset.zero;
     return OverlayEntry(
         builder: (context) => StreamBuilder<List<SearchFieldListItem?>?>(
             stream: suggestionStream.stream,
-            builder: (BuildContext context,
-                AsyncSnapshot<List<SearchFieldListItem?>?> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<List<SearchFieldListItem?>?> snapshot) {
               late var count = widget.maxSuggestionsInViewPort;
               if (snapshot.data != null) {
                 count = snapshot.data!.length;
@@ -573,10 +556,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
               return Positioned(
                 left: offset.dx,
                 width: textFieldSize.width,
-                child: CompositedTransformFollower(
-                    offset: widget.offset ?? yOffset,
-                    link: _layerLink,
-                    child: Material(child: _suggestionsBuilder())),
+                child: CompositedTransformFollower(offset: widget.offset ?? yOffset, link: _layerLink, child: Material(child: _suggestionsBuilder())),
               );
             }));
   }
@@ -607,8 +587,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
             },
             onTap: () {
               /// only call if SuggestionState = [Suggestion.expand]
-              if (!isSuggestionExpanded &&
-                  widget.suggestionState == Suggestion.expand) {
+              if (!isSuggestionExpanded && widget.suggestionState == Suggestion.expand) {
                 suggestionStream.sink.add(widget.suggestions);
                 if (mounted) {
                   setState(() {
@@ -624,12 +603,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
             style: widget.searchStyle,
             textInputAction: widget.textInputAction,
             keyboardType: widget.inputType,
-            decoration: widget.decoration ??
-                InputDecoration(
-                    suffixIcon: const Icon(Icons.arrow_drop_down_rounded),
-                    border: widget.border,
-                    labelText: widget.labelText,
-                    hintText: widget.hintText),
+            decoration: widget.decoration ?? InputDecoration(suffixIcon: const Icon(Icons.arrow_drop_down_rounded), border: widget.border, labelText: widget.labelText, hintText: widget.hintText),
             onChanged: (query) {
               final searchResult = <SearchFieldListItem<T>>[];
               if (query.isEmpty) {
@@ -638,9 +612,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
                 return;
               }
               for (final suggestion in widget.suggestions) {
-                if (suggestion.searchKey
-                    .toLowerCase()
-                    .contains(query.toLowerCase())) {
+                if (suggestion.searchKey.toLowerCase().contains(query.toLowerCase())) {
                   searchResult.add(suggestion);
                 }
               }
