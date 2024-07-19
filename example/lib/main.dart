@@ -18,8 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: DropdownExample());
+    return const MaterialApp(debugShowCheckedModeBanner: false, home: DropdownExample());
   }
 }
 
@@ -45,13 +44,7 @@ class _DropdownExampleState extends State<DropdownExample> {
   _generateItems() {
     List<DropdownItem> list = [];
     for (int i = 1; i <= 3; i++) {
-      list.add(DropdownItem(
-          id: "$i",
-          value: "Item $i",
-          data: User(
-              userId: "$i",
-              userName:
-                  "User $i") /* User class is another data class (use any datatype in data field )*/
+      list.add(DropdownItem(id: "$i", value: "Item $i", data: User(userId: "$i", userName: "User $i") /* User class is another data class (use any datatype in data field )*/
           ));
     }
     setState(() {
