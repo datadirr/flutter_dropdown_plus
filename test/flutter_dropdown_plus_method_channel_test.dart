@@ -3,20 +3,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_dropdown_plus/flutter_dropdown_plus_method_channel.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   MethodChannelFlutterDropdownPlus platform =
       MethodChannelFlutterDropdownPlus();
   const MethodChannel channel = MethodChannel('flutter_dropdown_plus');
 
-  TestWidgetsFlutterBinding.ensureInitialized();
-
   setUp(() {
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(
-      channel,
-      (MethodCall methodCall) async {
-        return '42';
-      },
-    );
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
+          return '42';
+        });
   });
 
   tearDown(() {

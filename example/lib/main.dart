@@ -9,7 +9,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -19,12 +19,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false, home: DropdownExample());
+      debugShowCheckedModeBanner: false,
+      home: DropdownExample(),
+    );
   }
 }
 
 class DropdownExample extends StatefulWidget {
-  const DropdownExample({Key? key}) : super(key: key);
+  const DropdownExample({super.key});
 
   @override
   State<DropdownExample> createState() => _DropdownExampleState();
@@ -45,14 +47,16 @@ class _DropdownExampleState extends State<DropdownExample> {
   _generateItems() {
     List<DropdownItem> list = [];
     for (int i = 1; i <= 3; i++) {
-      list.add(DropdownItem(
+      list.add(
+        DropdownItem(
           id: "$i",
           value: "Item $i",
           data: User(
-              userId: "$i",
-              userName:
-                  "User $i") /* User class is another data class (use any datatype in data field )*/
-          ));
+            userId: "$i",
+            userName: "User $i",
+          ) /* User class is another data class (use any datatype in data field )*/,
+        ),
+      );
     }
     setState(() {
       _itemList = list;
@@ -62,16 +66,14 @@ class _DropdownExampleState extends State<DropdownExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("flutter_dropdown_plus"),
-      ),
+      appBar: AppBar(title: const Text("flutter_dropdown_plus")),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Dropdown.singleSelection(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Dropdown.singleSelection(
                   title: "Single Selection Dropdown",
                   labelText: "Single",
                   hintText: "Single Selection",
@@ -88,12 +90,13 @@ class _DropdownExampleState extends State<DropdownExample> {
                     String itemId = selectedItem.id;
                     String itemName = selectedItem.value;
                     User user = selectedItem.data as User;
-                    log("Item Id: $itemId -- Item Name: $itemName ## Other Details ## User Id: ${user.userId} -- User Name: ${user.userName}");
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
-              Dropdown.multiSelection(
+                    log(
+                      "Item Id: $itemId -- Item Name: $itemName ## Other Details ## User Id: ${user.userId} -- User Name: ${user.userName}",
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
+                Dropdown.multiSelection(
                   title: "Multi Selection Dropdown",
                   labelText: "Multi",
                   hintText: "Multi Selection",
@@ -109,22 +112,24 @@ class _DropdownExampleState extends State<DropdownExample> {
                       String itemId = selectedItem.id;
                       String itemName = selectedItem.value;
                       User user = selectedItem.data as User;
-                      log("Item Id: $itemId -- Item Name: $itemName ## Other Details ## User Id: ${user.userId} -- User Name: ${user.userName}");
+                      log(
+                        "Item Id: $itemId -- Item Name: $itemName ## Other Details ## User Id: ${user.userId} -- User Name: ${user.userName}",
+                      );
                     }
-                  }),
-              const SizedBox(
-                height: 20,
-              ),
-              DropdownTextField(
-                controller: _conDropdownTextField,
-                list: _itemList,
-                hintText: "Item search",
-                labelText: "Item search",
-              ),
-            ],
+                  },
+                ),
+                const SizedBox(height: 20),
+                DropdownTextField(
+                  controller: _conDropdownTextField,
+                  list: _itemList,
+                  hintText: "Item search",
+                  labelText: "Item search",
+                ),
+              ],
+            ),
           ),
         ),
-      )),
+      ),
     );
   }
 }

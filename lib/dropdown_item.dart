@@ -39,7 +39,9 @@ class DropdownItem {
 
   /// selected item by value from dropdown
   static DropdownItem? selectedItemByValue(
-      List<DropdownItem> list, String value) {
+    List<DropdownItem> list,
+    String value,
+  ) {
     DropdownItem? selectedItem;
     for (DropdownItem obj in list) {
       if (DropdownItem._equals(value, obj.value)) {

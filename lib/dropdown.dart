@@ -11,9 +11,12 @@ const IconData _icSearch = Icons.search;
 
 Widget _addItemWidget(String? fontFamily) {
   return Align(
-      alignment: Alignment.centerRight,
-      child: Text(_addItem,
-          style: TextStyle(fontFamily: fontFamily, color: Colors.blue)));
+    alignment: Alignment.centerRight,
+    child: Text(
+      _addItem,
+      style: TextStyle(fontFamily: fontFamily, color: Colors.blue),
+    ),
+  );
 }
 
 /// Dropdown for single selection or multi selection
@@ -55,82 +58,82 @@ class Dropdown extends StatefulWidget {
   final bool _isMultiple;
 
   /// constructor for single selection dropdown
-  const Dropdown.singleSelection(
-      {super.key,
-      required this.list,
-      required this.onSingleItemListener,
-      this.selectedId,
-      this.title = "",
-      this.labelText = "",
-      this.hintText = "",
-      this.enabled = true,
-      this.width,
-      this.height,
-      this.textAlign = TextAlign.start,
-      this.fontFamily,
-      this.border = const OutlineInputBorder(),
-      this.decoration,
-      this.searchBox = true,
-      this.searchBoxHintText = _searchHere,
-      this.prefixSearchBoxIcon = _icSearch,
-      this.dialogBackgroundColor,
-      this.itemBackgroundColor = Colors.transparent,
-      this.selectedItemBackgroundColor = Colors.black12,
-      this.negativeButtonText = _cancel,
-      this.negativeButtonTextColor = Colors.red,
-      this.isAddItem = false,
-      this.dismissWhenTapAddItem = true,
-      this.onTapAddItem,
-      this.addItemWidget,
-      this.noDataWidget})
-      : selectedIds = null,
-        prefixSeparator = _has,
-        suffixSeparator = _comma,
-        positiveButtonText = _ok,
-        positiveButtonTextColor = Colors.black,
-        isAllSelection = false,
-        checkBoxActiveColor = Colors.black,
-        onMultipleItemListener = null,
-        _isMultiple = false;
+  const Dropdown.singleSelection({
+    super.key,
+    required this.list,
+    required this.onSingleItemListener,
+    this.selectedId,
+    this.title = "",
+    this.labelText = "",
+    this.hintText = "",
+    this.enabled = true,
+    this.width,
+    this.height,
+    this.textAlign = TextAlign.start,
+    this.fontFamily,
+    this.border = const OutlineInputBorder(),
+    this.decoration,
+    this.searchBox = true,
+    this.searchBoxHintText = _searchHere,
+    this.prefixSearchBoxIcon = _icSearch,
+    this.dialogBackgroundColor,
+    this.itemBackgroundColor = Colors.transparent,
+    this.selectedItemBackgroundColor = Colors.black12,
+    this.negativeButtonText = _cancel,
+    this.negativeButtonTextColor = Colors.red,
+    this.isAddItem = false,
+    this.dismissWhenTapAddItem = true,
+    this.onTapAddItem,
+    this.addItemWidget,
+    this.noDataWidget,
+  }) : selectedIds = null,
+       prefixSeparator = _has,
+       suffixSeparator = _comma,
+       positiveButtonText = _ok,
+       positiveButtonTextColor = Colors.black,
+       isAllSelection = false,
+       checkBoxActiveColor = Colors.black,
+       onMultipleItemListener = null,
+       _isMultiple = false;
 
   /// constructor for single multi dropdown
-  const Dropdown.multiSelection(
-      {super.key,
-      required this.list,
-      required this.onMultipleItemListener,
-      this.selectedIds,
-      this.title = "",
-      this.labelText = "",
-      this.hintText = "",
-      this.enabled = true,
-      this.width,
-      this.height,
-      this.textAlign = TextAlign.start,
-      this.fontFamily,
-      this.border = const OutlineInputBorder(),
-      this.decoration,
-      this.searchBox = true,
-      this.prefixSeparator = _has,
-      this.suffixSeparator = _comma,
-      this.searchBoxHintText = _searchHere,
-      this.prefixSearchBoxIcon = _icSearch,
-      this.dialogBackgroundColor,
-      this.itemBackgroundColor = Colors.transparent,
-      this.selectedItemBackgroundColor = Colors.black12,
-      this.negativeButtonText = _cancel,
-      this.positiveButtonText = _ok,
-      this.negativeButtonTextColor = Colors.red,
-      this.positiveButtonTextColor = Colors.black,
-      this.isAllSelection = false,
-      this.checkBoxActiveColor = Colors.black,
-      this.isAddItem = false,
-      this.dismissWhenTapAddItem = true,
-      this.onTapAddItem,
-      this.addItemWidget,
-      this.noDataWidget})
-      : selectedId = null,
-        onSingleItemListener = null,
-        _isMultiple = true;
+  const Dropdown.multiSelection({
+    super.key,
+    required this.list,
+    required this.onMultipleItemListener,
+    this.selectedIds,
+    this.title = "",
+    this.labelText = "",
+    this.hintText = "",
+    this.enabled = true,
+    this.width,
+    this.height,
+    this.textAlign = TextAlign.start,
+    this.fontFamily,
+    this.border = const OutlineInputBorder(),
+    this.decoration,
+    this.searchBox = true,
+    this.prefixSeparator = _has,
+    this.suffixSeparator = _comma,
+    this.searchBoxHintText = _searchHere,
+    this.prefixSearchBoxIcon = _icSearch,
+    this.dialogBackgroundColor,
+    this.itemBackgroundColor = Colors.transparent,
+    this.selectedItemBackgroundColor = Colors.black12,
+    this.negativeButtonText = _cancel,
+    this.positiveButtonText = _ok,
+    this.negativeButtonTextColor = Colors.red,
+    this.positiveButtonTextColor = Colors.black,
+    this.isAllSelection = false,
+    this.checkBoxActiveColor = Colors.black,
+    this.isAddItem = false,
+    this.dismissWhenTapAddItem = true,
+    this.onTapAddItem,
+    this.addItemWidget,
+    this.noDataWidget,
+  }) : selectedId = null,
+       onSingleItemListener = null,
+       _isMultiple = true;
 
   @override
   State<Dropdown> createState() => _DropdownState();
@@ -152,12 +155,14 @@ class _DropdownState extends State<Dropdown> {
       onTap: () {
         if (widget.enabled) {
           _openDropdown(
-              context: context,
-              list: widget.list,
-              isMultiple: widget._isMultiple,
-              title: ((widget.title.trim()).isNotEmpty)
-                  ? widget.title
-                  : widget.labelText);
+            context: context,
+            list: widget.list,
+            isMultiple: widget._isMultiple,
+            title:
+                ((widget.title.trim()).isNotEmpty)
+                    ? widget.title
+                    : widget.labelText,
+          );
         }
       },
       controller: _conSelectedValue,
@@ -165,7 +170,8 @@ class _DropdownState extends State<Dropdown> {
       textAlign: widget.textAlign,
       style: TextStyle(fontFamily: widget.fontFamily),
       enabled: widget.enabled,
-      decoration: widget.decoration ??
+      decoration:
+          widget.decoration ??
           InputDecoration(
             suffixIcon: const Icon(Icons.arrow_drop_down_rounded),
             border: widget.border,
@@ -235,11 +241,12 @@ class _DropdownState extends State<Dropdown> {
   }
 
   /// open dropdown dialog
-  _openDropdown(
-      {required BuildContext context,
-      required List<DropdownItem> list,
-      required bool isMultiple,
-      String title = ""}) {
+  _openDropdown({
+    required BuildContext context,
+    required List<DropdownItem> list,
+    required bool isMultiple,
+    String title = "",
+  }) {
     for (DropdownItem obj in list) {
       obj.selected = false;
     }
@@ -265,12 +272,14 @@ class _DropdownState extends State<Dropdown> {
     _checkAllSelection(list);
 
     showDialog(
-        context: context,
-        builder: (ctx) {
-          return StatefulBuilder(builder: (buildContext, setState) {
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (buildContext, setState) {
             return Dialog(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+                borderRadius: BorderRadius.circular(10),
+              ),
               elevation: 5,
               backgroundColor: widget.dialogBackgroundColor,
               child: SizedBox(
@@ -289,11 +298,11 @@ class _DropdownState extends State<Dropdown> {
                               title,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  fontFamily: widget.fontFamily, fontSize: 18),
+                                fontFamily: widget.fontFamily,
+                                fontSize: 18,
+                              ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
                           ],
                         ),
                       ),
@@ -311,9 +320,11 @@ class _DropdownState extends State<Dropdown> {
                                     child: TextFormField(
                                       controller: _conSearchBox,
                                       decoration: InputDecoration(
-                                          hintText: widget.searchBoxHintText,
-                                          prefixIcon:
-                                              Icon(widget.prefixSearchBoxIcon)),
+                                        hintText: widget.searchBoxHintText,
+                                        prefixIcon: Icon(
+                                          widget.prefixSearchBoxIcon,
+                                        ),
+                                      ),
                                       onChanged: (value) {
                                         fList.clear();
                                         if ((value.trim()).isNotEmpty) {
@@ -321,7 +332,8 @@ class _DropdownState extends State<Dropdown> {
                                             if (obj.value
                                                 .toLowerCase()
                                                 .contains(
-                                                    value.toLowerCase())) {
+                                                  value.toLowerCase(),
+                                                )) {
                                               fList.add(obj);
                                             }
                                           }
@@ -338,28 +350,27 @@ class _DropdownState extends State<Dropdown> {
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
+                                      const SizedBox(width: 10),
                                       GestureDetector(
-                                          onTap: () {
-                                            _isAllSelected = !_isAllSelected;
-                                            for (DropdownItem obj in list) {
-                                              obj.selected = _isAllSelected;
-                                            }
-                                            setState(() {});
-                                          },
-                                          child: Icon(_isAllSelected
+                                        onTap: () {
+                                          _isAllSelected = !_isAllSelected;
+                                          for (DropdownItem obj in list) {
+                                            obj.selected = _isAllSelected;
+                                          }
+                                          setState(() {});
+                                        },
+                                        child: Icon(
+                                          _isAllSelected
                                               ? Icons.playlist_add_check_rounded
-                                              : Icons.subject))
+                                              : Icons.subject,
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10),
                             Visibility(
                               visible: widget.isAddItem,
                               child: GestureDetector(
@@ -369,54 +380,64 @@ class _DropdownState extends State<Dropdown> {
                                       Navigator.pop(context);
                                     }
                                     widget.onTapAddItem!(
-                                        _conSearchBox.text.toString());
+                                      _conSearchBox.text.toString(),
+                                    );
                                   }
                                 },
-                                child: widget.addItemWidget ??
+                                child:
+                                    widget.addItemWidget ??
                                     _addItemWidget(widget.fontFamily),
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            )
+                            const SizedBox(height: 10),
                           ],
                         ),
                       ),
                       Flexible(
                         child: Visibility(
                           visible: fList.isNotEmpty,
-                          replacement: widget.noDataWidget ??
+                          replacement:
+                              widget.noDataWidget ??
                               Center(
-                                  child: Text("No Data",
-                                      style: TextStyle(
-                                          fontFamily: widget.fontFamily))),
+                                child: Text(
+                                  "No Data",
+                                  style: TextStyle(
+                                    fontFamily: widget.fontFamily,
+                                  ),
+                                ),
+                              ),
                           child: ListView.builder(
                             key: const PageStorageKey<String>('list'),
                             shrinkWrap: true,
                             itemCount: fList.length,
                             itemBuilder: (context, index) {
-                              return _dropdownItemView(context, isMultiple,
-                                  fList[index], fList, setState);
+                              return _dropdownItemView(
+                                context,
+                                isMultiple,
+                                fList[index],
+                                fList,
+                                setState,
+                              );
                             },
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text(
-                                widget.negativeButtonText,
-                                style: TextStyle(
-                                    fontFamily: widget.fontFamily,
-                                    color: widget.negativeButtonTextColor),
-                              )),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              widget.negativeButtonText,
+                              style: TextStyle(
+                                fontFamily: widget.fontFamily,
+                                color: widget.negativeButtonTextColor,
+                              ),
+                            ),
+                          ),
                           Visibility(
                             visible: isMultiple,
                             child: Row(
@@ -424,99 +445,114 @@ class _DropdownState extends State<Dropdown> {
                               children: [
                                 const SizedBox(width: 5),
                                 TextButton(
-                                    onPressed: () {
-                                      widget.selectedIds!.clear();
-                                      List<DropdownItem> selectedList = [];
-                                      for (DropdownItem selectedObj in list) {
-                                        if (selectedObj.selected) {
-                                          widget.selectedIds!
-                                              .add(selectedObj.id);
-                                          selectedList.add(selectedObj);
-                                        }
+                                  onPressed: () {
+                                    widget.selectedIds!.clear();
+                                    List<DropdownItem> selectedList = [];
+                                    for (DropdownItem selectedObj in list) {
+                                      if (selectedObj.selected) {
+                                        widget.selectedIds!.add(selectedObj.id);
+                                        selectedList.add(selectedObj);
                                       }
-                                      String selectedValue =
-                                          _getSelectedValue(list: selectedList);
-                                      _conSelectedValue.text = selectedValue;
-                                      if (widget.onMultipleItemListener !=
-                                          null) {
-                                        widget.onMultipleItemListener!(
-                                            selectedList);
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                    child: Text(
-                                      widget.positiveButtonText,
-                                      style: TextStyle(
-                                          fontFamily: widget.fontFamily,
-                                          color:
-                                              widget.positiveButtonTextColor),
-                                    ))
+                                    }
+                                    String selectedValue = _getSelectedValue(
+                                      list: selectedList,
+                                    );
+                                    _conSelectedValue.text = selectedValue;
+                                    if (widget.onMultipleItemListener != null) {
+                                      widget.onMultipleItemListener!(
+                                        selectedList,
+                                      );
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  child: Text(
+                                    widget.positiveButtonText,
+                                    style: TextStyle(
+                                      fontFamily: widget.fontFamily,
+                                      color: widget.positiveButtonTextColor,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
-                          )
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
               ),
             );
-          });
-        });
+          },
+        );
+      },
+    );
   }
 
   /// dropdown item view
-  _dropdownItemView(BuildContext context, bool isMultiple, DropdownItem obj,
-      List<DropdownItem> list, StateSetter setState) {
+  _dropdownItemView(
+    BuildContext context,
+    bool isMultiple,
+    DropdownItem obj,
+    List<DropdownItem> list,
+    StateSetter setState,
+  ) {
     return InkWell(
-        onTap: () {
-          if (isMultiple) {
-            setState(() {
-              obj.selected = !obj.selected;
-            });
-            _checkAllSelection(list);
-          } else {
-            /*widget.selectedId = obj.id;*/
-            _conSelectedValue.text = obj.value;
-            if (widget.onSingleItemListener != null) {
-              widget.onSingleItemListener!(obj);
-            }
-            Navigator.pop(context);
+      onTap: () {
+        if (isMultiple) {
+          setState(() {
+            obj.selected = !obj.selected;
+          });
+          _checkAllSelection(list);
+        } else {
+          /*widget.selectedId = obj.id;*/
+          _conSelectedValue.text = obj.value;
+          if (widget.onSingleItemListener != null) {
+            widget.onSingleItemListener!(obj);
           }
-        },
-        child: Container(
-          margin: const EdgeInsets.only(top: 2, bottom: 2),
-          padding: EdgeInsets.all(isMultiple ? 10 : 20),
-          decoration: BoxDecoration(
-              color: obj.selected
+          Navigator.pop(context);
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.only(top: 2, bottom: 2),
+        padding: EdgeInsets.all(isMultiple ? 10 : 20),
+        decoration: BoxDecoration(
+          color:
+              obj.selected
                   ? widget.selectedItemBackgroundColor
                   : widget.itemBackgroundColor,
-              borderRadius: const BorderRadius.all(Radius.circular(10))),
-          child: Row(
-            children: [
-              Visibility(
-                visible: isMultiple,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Checkbox(
-                        activeColor: widget.checkBoxActiveColor,
-                        value: obj.selected,
-                        onChanged: (isChecked) {
-                          setState(() {
-                            obj.selected = !obj.selected;
-                          });
-                          _checkAllSelection(list);
-                        }),
-                    const SizedBox(width: 5),
-                  ],
-                ),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Row(
+          children: [
+            Visibility(
+              visible: isMultiple,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Checkbox(
+                    activeColor: widget.checkBoxActiveColor,
+                    value: obj.selected,
+                    onChanged: (isChecked) {
+                      setState(() {
+                        obj.selected = !obj.selected;
+                      });
+                      _checkAllSelection(list);
+                    },
+                  ),
+                  const SizedBox(width: 5),
+                ],
               ),
-              Expanded(
-                  child: Text(obj.value,
-                      style: TextStyle(fontFamily: widget.fontFamily))),
-            ],
-          ),
-        ));
+            ),
+            Expanded(
+              child: Text(
+                obj.value,
+                style: TextStyle(fontFamily: widget.fontFamily),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
