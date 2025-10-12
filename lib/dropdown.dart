@@ -149,7 +149,7 @@ class _DropdownState extends State<Dropdown> {
     return _dropdownView();
   }
 
-  _dropdownView() {
+  Widget _dropdownView() {
     _initialSetup();
     return TextFormField(
       onTap: () {
@@ -184,7 +184,7 @@ class _DropdownState extends State<Dropdown> {
   }
 
   /// initial setup of dropdown item selection
-  _initialSetup() {
+  void _initialSetup() {
     String selectedValue = _getSelectedValue(list: widget.list);
     _conSelectedValue.text = selectedValue;
   }
@@ -222,7 +222,7 @@ class _DropdownState extends State<Dropdown> {
   }
 
   /// check selected dropdown item
-  _checkAllSelection(List<DropdownItem> list) {
+  void _checkAllSelection(List<DropdownItem> list) {
     if (widget.isAllSelection) {
       int selectedItemCount = 0;
       for (DropdownItem obj in list) {
@@ -241,7 +241,7 @@ class _DropdownState extends State<Dropdown> {
   }
 
   /// open dropdown dialog
-  _openDropdown({
+  void _openDropdown({
     required BuildContext context,
     required List<DropdownItem> list,
     required bool isMultiple,
@@ -490,7 +490,7 @@ class _DropdownState extends State<Dropdown> {
   }
 
   /// dropdown item view
-  _dropdownItemView(
+  Widget _dropdownItemView(
     BuildContext context,
     bool isMultiple,
     DropdownItem obj,
