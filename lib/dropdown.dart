@@ -158,10 +158,9 @@ class _DropdownState extends State<Dropdown> {
             context: context,
             list: widget.list,
             isMultiple: widget._isMultiple,
-            title:
-                ((widget.title.trim()).isNotEmpty)
-                    ? widget.title
-                    : widget.labelText,
+            title: ((widget.title.trim()).isNotEmpty)
+                ? widget.title
+                : widget.labelText,
           );
         }
       },
@@ -517,10 +516,9 @@ class _DropdownState extends State<Dropdown> {
         margin: const EdgeInsets.only(top: 2, bottom: 2),
         padding: EdgeInsets.all(isMultiple ? 10 : 20),
         decoration: BoxDecoration(
-          color:
-              obj.selected
-                  ? widget.selectedItemBackgroundColor
-                  : widget.itemBackgroundColor,
+          color: obj.selected
+              ? widget.selectedItemBackgroundColor
+              : widget.itemBackgroundColor,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         child: Row(

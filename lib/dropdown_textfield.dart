@@ -402,56 +402,54 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
   Widget _suggestionsBuilder() {
     return StreamBuilder<List<SearchFieldListItem<T>?>?>(
       stream: suggestionStream.stream,
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<List<SearchFieldListItem<T>?>?> snapshot,
-      ) {
-        if (snapshot.data == null || !isSuggestionExpanded) {
-          return const SizedBox();
-        } else if (snapshot.data!.isEmpty) {
-          return widget.emptyWidget;
-        } else {
-          if (snapshot.data!.length > widget.maxSuggestionsInViewPort) {
-            _totalHeight = widget.itemHeight * widget.maxSuggestionsInViewPort;
-          } else if (snapshot.data!.length == 1) {
-            _totalHeight = widget.itemHeight;
-          } else {
-            _totalHeight = snapshot.data!.length * widget.itemHeight;
-          }
-          final onSurfaceColor = Theme.of(context).colorScheme.onSurface;
-          return AnimatedContainer(
-            duration:
-                widget.suggestionDirection == SuggestionDirection.up
+      builder:
+          (
+            BuildContext context,
+            AsyncSnapshot<List<SearchFieldListItem<T>?>?> snapshot,
+          ) {
+            if (snapshot.data == null || !isSuggestionExpanded) {
+              return const SizedBox();
+            } else if (snapshot.data!.isEmpty) {
+              return widget.emptyWidget;
+            } else {
+              if (snapshot.data!.length > widget.maxSuggestionsInViewPort) {
+                _totalHeight =
+                    widget.itemHeight * widget.maxSuggestionsInViewPort;
+              } else if (snapshot.data!.length == 1) {
+                _totalHeight = widget.itemHeight;
+              } else {
+                _totalHeight = snapshot.data!.length * widget.itemHeight;
+              }
+              final onSurfaceColor = Theme.of(context).colorScheme.onSurface;
+              return AnimatedContainer(
+                duration: widget.suggestionDirection == SuggestionDirection.up
                     ? Duration.zero
                     : const Duration(milliseconds: 300),
-            height: _totalHeight,
-            alignment: Alignment.centerLeft,
-            decoration:
-                widget.suggestionsDecoration ??
-                BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  boxShadow: [
-                    BoxShadow(
-                      color: onSurfaceColor.withValues(alpha: 0.1),
-                      blurRadius: 8.0,
-                      spreadRadius: 2.0,
-                      offset:
-                          widget.hasOverlay
+                height: _totalHeight,
+                alignment: Alignment.centerLeft,
+                decoration:
+                    widget.suggestionsDecoration ??
+                    BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      boxShadow: [
+                        BoxShadow(
+                          color: onSurfaceColor.withValues(alpha: 0.1),
+                          blurRadius: 8.0,
+                          spreadRadius: 2.0,
+                          offset: widget.hasOverlay
                               ? const Offset(2.0, 5.0)
                               : const Offset(1.0, 0.5),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-            child: ListView.builder(
-              reverse: widget.suggestionDirection == SuggestionDirection.up,
-              padding: EdgeInsets.zero,
-              itemCount: snapshot.data!.length,
-              physics:
-                  snapshot.data!.length == 1
+                child: ListView.builder(
+                  reverse: widget.suggestionDirection == SuggestionDirection.up,
+                  padding: EdgeInsets.zero,
+                  itemCount: snapshot.data!.length,
+                  physics: snapshot.data!.length == 1
                       ? const NeverScrollableScrollPhysics()
                       : const ScrollPhysics(),
-              itemBuilder:
-                  (context, index) => InkWell(
+                  itemBuilder: (context, index) => InkWell(
                     onTap: () {
                       searchController!.text = snapshot.data![index]!.searchKey;
                       searchController!.selection = TextSelection.fromPosition(
@@ -492,18 +490,15 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
                                 ),
                           ) ??
                           BoxDecoration(
-                            border:
-                                index == snapshot.data!.length - 1
-                                    ? null
-                                    : Border(
-                                      bottom: BorderSide(
-                                        color:
-                                            widget.marginColor ??
-                                            onSurfaceColor.withValues(
-                                              alpha: 0.1,
-                                            ),
-                                      ),
+                            border: index == snapshot.data!.length - 1
+                                ? null
+                                : Border(
+                                    bottom: BorderSide(
+                                      color:
+                                          widget.marginColor ??
+                                          onSurfaceColor.withValues(alpha: 0.1),
                                     ),
+                                  ),
                           ),
                       child: Padding(
                         padding: const EdgeInsets.all(10),
@@ -516,10 +511,10 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
                       ),
                     ),
                   ),
-            ),
-          );
-        }
-      },
+                ),
+              );
+            }
+          },
     );
   }
 
@@ -581,10 +576,10 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
     final offset = textFieldRenderBox.localToGlobal(Offset.zero);
     Offset yOffset = Offset.zero;
     return OverlayEntry(
-      builder:
-          (context) => StreamBuilder<List<SearchFieldListItem?>?>(
-            stream: suggestionStream.stream,
-            builder: (
+      builder: (context) => StreamBuilder<List<SearchFieldListItem?>?>(
+        stream: suggestionStream.stream,
+        builder:
+            (
               BuildContext context,
               AsyncSnapshot<List<SearchFieldListItem?>?> snapshot,
             ) {
@@ -603,7 +598,7 @@ class DropdownTextFieldState<T> extends State<DropdownTextField<T>> {
                 ),
               );
             },
-          ),
+      ),
     );
   }
 
